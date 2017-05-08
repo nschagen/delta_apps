@@ -21,15 +21,15 @@ void handle_request(int clientfd) {
   char string[100];
   int i;
 
-  recv(clientfd, &hdr, sizeof(struct header), 0);
-  recv(clientfd, (char*)string, hdr.len, 0);
+  read(clientfd, &hdr, sizeof(struct header));
+  read(clientfd, (char*)string, hdr.len);
 
   for (i=0; i<hdr.len; i++) {
     if (string[i] == hdr.from)
       string[i] = hdr.to;
   }
 
-  send(clientfd, (char*)string, (size_t)hdr.len, 0);
+  write(clientfd, (char*)string, (size_t)hdr.len);
 }
 
 int main(int Count, char *Strings[])

@@ -18,12 +18,12 @@ typedef struct {
 
 void handle_request(int clientfd) {
   echo_t e;
-  ssize_t real_size; 
-	
-  real_size = recv(clientfd, &e, sizeof(echo_t), 0);
+  ssize_t real_size;
+
+  real_size = read(clientfd, &e, sizeof(echo_t));
   // Only respond when size is nonzero and not too big
   if (e.size > 0 && e.size <= real_size - 4) {
-    send(clientfd, &e, e.size + 4, 0);
+    write(clientfd, &e, e.size + 4);
   }
 }
 

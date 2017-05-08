@@ -13,9 +13,9 @@
 void handle_request(int clientfd) {
   char buf[99];
   short size;
-  recv(clientfd, &size, sizeof(short), 0);
-  recv(clientfd, &buf, size, 0);
-  send(clientfd, &buf, size, 0);
+  read(clientfd, &size, sizeof(short));
+  read(clientfd, &buf, size);
+  write(clientfd, &buf, size);
 }
 
 int main(int Count, char *Strings[])

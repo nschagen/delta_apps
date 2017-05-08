@@ -16,7 +16,7 @@ void handle_request(int clientfd) {
   memset(out, 0, 100);
 
   // Leave last byte for null-terminator
-  recv(clientfd, in, 99, 0);
+  read(clientfd, in, 99);
 
   // Write characters from in to out and escape double-quotes and
   // backslashes
@@ -32,7 +32,7 @@ void handle_request(int clientfd) {
     *o = *i;
   }
 
-  send(clientfd, (char*)out, strlen(out) + 1, 0);
+  write(clientfd, (char*)out, strlen(out) + 1);
 }
 
 int main(int Count, char *Strings[])

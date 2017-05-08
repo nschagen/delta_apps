@@ -18,9 +18,9 @@ typedef struct {
 
 void handle_request(int clientfd) {
   echo_t e;
-  recv(clientfd, &e, sizeof(echo_t), 0);
+  read(clientfd, &e, sizeof(echo_t));
   // Server may leak data when size is too big
-  send(clientfd, &e, e.size + 4, 0);
+  write(clientfd, &e, e.size + 4);
 }
 
 int main(int Count, char *Strings[])
