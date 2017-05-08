@@ -1,0 +1,28 @@
+#!/bin/bash
+
+PROC_NAME="replace_delta"
+BIN_PATH=`pwd`/replace_deltafied
+BC_PATH=`pwd`/replace_deltafied.bc
+SRC_DIR="ssl"
+
+ROOT=${LLVMAPPS_ROOT-../..}
+
+. ${ROOT}/apps/scripts/include/cmdctl.inc
+
+KEY=`pwd`/install/ssl/key.pem
+CERT=`pwd`/install/ssl/cert.pem
+SERVER_PORT=44330
+
+mode=$1
+shift || mode="no_action"
+
+case "$mode" in
+  'start')
+    echo "***** Starting $PROC_NAME server..."
+    cmdctl_server_check_not_running
+    eval $LLVM_CMD_PREFIX $BIN_PATH $*
+    ;;
+  *)
+    cmdctl_server_action $mode $*
+    ;;
+esac
