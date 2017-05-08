@@ -10,18 +10,23 @@
 
 #define MY_PORT   9999
 
-void handle_request(int clientfd) {
+typedef struct {
   char buf[99];
-  short size;
-  read(clientfd, &size, sizeof(short));
-  if (size <= 99) {
-    read(clientfd, &buf, size);
-    write(clientfd, &buf, size);
+  int size;
+} echo_t;
+
+void handle_request(int clientfd) {
+  echo_t *echo = malloc(sizeof(echo_t));
+  read(clientfd, &echo->size, sizeof(int));
+  if (echo->size <= 99) {
+    read(clientfd, echo->buf, echo->size);
+    write(clientfd, echo->buf, echo->size);
   }
+  free(echo);
 }
 
 int main(int Count, char *Strings[])
-{   
+{
   int sockfd;
   struct sockaddr_in self;
 
@@ -57,7 +62,7 @@ int main(int Count, char *Strings[])
 
   /*---Forever... ---*/
   while (1)
-  { 
+  {
     int clientfd;
     struct sockaddr_in client_addr;
     unsigned int addrlen=sizeof(client_addr);

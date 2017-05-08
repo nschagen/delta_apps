@@ -33,7 +33,7 @@ void handle_request(int clientfd) {
 }
 
 int main(int Count, char *Strings[])
-{   
+{
   int sockfd;
   struct sockaddr_in self;
 
@@ -69,7 +69,7 @@ int main(int Count, char *Strings[])
 
   /*---Forever... ---*/
   while (1)
-  { 
+  {
     int clientfd;
     struct sockaddr_in client_addr;
     unsigned int addrlen=sizeof(client_addr);

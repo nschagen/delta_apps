@@ -11,7 +11,7 @@
 #define MY_PORT   9999
 
 void handle_request(int clientfd) {
-  char in[100], out[100], *i, *o;
+  char out[100], in[100], *i, *o;
   memset(in, 0, 100);
   memset(out, 0, 100);
 
