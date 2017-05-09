@@ -3,6 +3,7 @@ import sys
 import socket
 import struct
 import mmap
+import select
 
 if len(sys.argv) < 3:
 	print "Not enough arguments"
@@ -26,5 +27,16 @@ with open(fuzzed_input_file, "r") as datafile:
 	data = datafile.read()
 	client_socket.send(data)
 
-data = client_socket.recv(999)
-print(data)
+client_socket.setblocking(0)
+ready = select.select([client_socket], [], [], 1)
+if ready[0]:
+  # We expect a single character back
+  data = client_socket.recv(999)
+  print("Bytes received: ", len(data))
+  print("Response: ", data)
+  sys.exit(0)
+else:
+  # Nothing was read, abort with error returncode such that fuzzer knows it
+  # should not expect anything
+  print "Setup timed out."
+  sys.exit(1)
